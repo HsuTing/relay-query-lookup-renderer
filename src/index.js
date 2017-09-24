@@ -127,6 +127,20 @@ class ReactRelayQueryRenderer extends React.Component {
                     },
                 });
             }
+        } else if(!_this2._pendingFetch) {
+            const {readyState} = this.state;
+            const {environment} = this._relayContext;
+            const snapshot = environment.lookup(this._operation.fragment);
+
+            if(!areEqual(snapshot.data, readyState.props)) {
+                this.setState({
+                      readyState: {
+                          error: null,
+                          props: snapshot.data,
+                          retry: null
+                      }
+                });
+            }
         }
     }
 
